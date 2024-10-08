@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/account")
+@RequestMapping("/api/v1/notice")
 @CrossOrigin
-public class AccountController {
-    @GetMapping("/my-account")
-    public String getAccountDetails(){
-        return "here are the account details";
+public class NoticeController {
+    @GetMapping("/my-notice")
+    public String getMyNotice() {
+        return "here are the notice details";
+
     }
 }

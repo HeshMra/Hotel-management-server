@@ -19,7 +19,7 @@ public class LoginController {
     @Autowired
     private UserRepo userRepo;
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<String>regsiterUser(@RequestBody User user){
         ResponseEntity response = null;
         try{

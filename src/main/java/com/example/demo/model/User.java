@@ -18,6 +18,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
     private int id;
     private String email;
+    private String username;
     private String password;
     private String role;
 }

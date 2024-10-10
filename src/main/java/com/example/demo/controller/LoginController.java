@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/user")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class LoginController {
 
     @Autowired
@@ -56,6 +56,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User user) {
+        System.out.println("helloo"+user);
         try {
             // Authenticate the user
             authenticationManager.authenticate(

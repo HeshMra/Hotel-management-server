@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -14,8 +15,10 @@ public class JwtUtil {
     private String secretKey = "your_secret_key"; // Use a secure key in production
     private long expirationTime = 1000 * 60 * 60; // 1 hour
 
-    public String generateToken(String username) {
+    // Updated method to accept roles as a parameter
+    public String generateToken(String username, List<String> roles) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", roles);  // Add roles to the claims
         return createToken(claims, username);
     }
 
@@ -36,6 +39,12 @@ public class JwtUtil {
 
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
+    }
+
+    // Method to extract roles from the token
+    public List<String> extractRoles(String token) {
+        Claims claims = extractAllClaims(token);
+        return (List<String>) claims.get("roles");  // Retrieve roles from claims
     }
 
     private Claims extractAllClaims(String token) {

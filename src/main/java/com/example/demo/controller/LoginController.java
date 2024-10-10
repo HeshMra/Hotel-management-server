@@ -11,6 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/user")
 @CrossOrigin
@@ -54,15 +57,27 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User user) {
         try {
+            // Authenticate the user
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-            String token = jwtUtil.generateToken(user.getUsername());
+
+            // Retrieve the user from the database
+            User foundUser = userRepo.findByUsername(user.getUsername());
+            if (foundUser == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
+
+            // Extract roles and generate token
+            List<String> roles = Collections.singletonList(foundUser.getRole()); // Assuming getRole() returns the role as a String
+            String token = jwtUtil.generateToken(foundUser.getUsername(), roles);
+
             return ResponseEntity.ok(token);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid credentials");
         }
     }
+
 
 
 }

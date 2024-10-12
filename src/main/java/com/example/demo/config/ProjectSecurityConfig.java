@@ -39,7 +39,7 @@ public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/notice/my-notice","/api/v1/user/login","/api/v1/user/register").permitAll() // Allow login for everyone
                 .antMatchers("/api/v1/account/my-account").hasRole("ADMIN")
-                .antMatchers("/api/v1/loan/my-loan").hasRole("USER")  // Admin dashboard access
+                .antMatchers("/api/v1/loan/my-loan","/api/v1/inquiry/save").hasRole("USER")  // Admin dashboard access
                 .anyRequest().authenticated() // All other requests need authentication
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

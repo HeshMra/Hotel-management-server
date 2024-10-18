@@ -13,6 +13,6 @@ public class AccountController {
     @GetMapping("/my-account")
     public  ResponseEntity<String> getAccountDetails(){
 
-        return ResponseEntity.ok("here are the account details");
+        return ResponseEntity.ok("here are the updated account details");
     }
 }

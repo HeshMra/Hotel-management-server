@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/inquiry")
 
@@ -22,7 +24,7 @@ public class InquiryController {
 
     //add Inquiry
     @PostMapping("/save")
-    public ResponseEntity<StandardResponse> saveInquiry(@RequestBody InquiryDTO inquiryDTO){
+    public ResponseEntity<StandardResponse> saveInquiry(@RequestBody InquiryDTO inquiryDTO) {
         String message = inquiryService.saveInquiry(inquiryDTO);
 
         // Prepare email details
@@ -44,9 +46,20 @@ public class InquiryController {
         emailService.sendInquiryNotification(adminEmail, subject, emailMessage);
 
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(201,"Success",message),
+                new StandardResponse(201, "Success", message),
                 HttpStatus.CREATED
         );
+    }
+
+    @GetMapping("/all-inquiries")
+    public ResponseEntity<StandardResponse> getAllInquiries() {
+        List<InquiryDTO>allinquiries = inquiryService.getallInquiries();
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200, "Success", allinquiries),
+                HttpStatus.OK
+        );
+
     }
 
 }

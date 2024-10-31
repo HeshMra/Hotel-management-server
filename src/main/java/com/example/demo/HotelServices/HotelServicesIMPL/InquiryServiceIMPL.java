@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InquiryServiceIMPL implements InquiryService
 {
@@ -28,4 +30,13 @@ public class InquiryServiceIMPL implements InquiryService
             throw new DuplicateKeyException("inquiry Already Added");
         }
     }
+
+    @Override
+    public List<InquiryDTO> getallInquiries() {
+        List<Inquiry> inquiries = inquiryRepo.findAll();
+        return inquiries.stream()
+                .map(inquiry -> modelMapper.map(inquiry, InquiryDTO.class))
+                .toList();
+    }
+
 }
